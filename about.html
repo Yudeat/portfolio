@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Creative Portfolio</title>
+    <meta name="description" content="Learn about my journey as a creative designer and developer, my skills, experience, and design philosophy.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+    
+    <style>
+        /* Import base styles from index.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-light: #fafafa;
+            --accent-sage: #8b9a7a;
+            --accent-terracotta: #c4a484;
+            --text-light: #ffffff;
+            --text-muted: #666666;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-dark);
+            background-color: var(--primary-light);
+            overflow-x: hidden;
+        }
+
+        /* Navigation (same as index) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 154, 122, 0.1);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary-dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent-sage);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-sage);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .about-hero {
+            padding: 12rem 0 8rem;
+            background: linear-gradient(135deg, rgba(139, 154, 122, 0.1) 0%, rgba(196, 164, 132, 0.1) 100%);
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-sage) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Personal Story Section */
+        .personal-story {
+            padding: 8rem 0;
+            background: var(--primary-light);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-image {
+            position: relative;
+        }
+
+        .avatar {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .story-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--primary-dark);
+        }
+
+        .story-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, rgba(139, 154, 122, 0.05) 0%, rgba(196, 164, 132, 0.05) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent-sage);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .timeline-item.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 0;
+            margin-right: 50%;
+            padding-right: 2rem;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 50%;
+            margin-right: 0;
+            padding-left: 2rem;
+            text-align: left;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-sage);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-year {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-sage);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-company {
+            color: var(--accent-terracotta);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Skills Visualization */
+        .skills-section {
+            padding: 8rem 0;
+            background: var(--primary-light);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .skills-chart {
+            width: 100%;
+            height: 400px;
+        }
+
+        .skills-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-category h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(139, 154, 122, 0.1);
+            color: var(--accent-sage);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Philosophy Section */
+        .philosophy-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, var(--accent-sage) 0%, var(--accent-terracotta) 100%);
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .philosophy-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .philosophy-section h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .philosophy-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .philosophy-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-left: 4px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .timeline::before {
+                left: 2rem;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 4rem;
+                margin-right: 0;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                text-align: left;
+            }
+
+            .timeline-marker {
+                left: 2rem;
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-on-scroll.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portfolio</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">About Me</h1>
+                <p class="hero-subtitle">A passionate creative professional with 8+ years of experience in design and development, dedicated to crafting exceptional digital experiences that make a lasting impact.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Story -->
+    <section class="personal-story">
+        <div class="container">
+            <div class="story-grid">
+                <div class="story-image animate-on-scroll">
+                    <img src="resources/avatar.jpg" alt="Professional portrait" class="avatar">
+                </div>
+                <div class="story-content animate-on-scroll">
+                    <h2>My Journey</h2>
+                    <p>My passion for design began during my university years, where I discovered the power of visual communication to tell compelling stories and solve complex problems. What started as a fascination with typography and color theory evolved into a deep understanding of how thoughtful design can transform businesses and improve people's lives.</p>
+                    <p>Over the past eight years, I've had the privilege of working with diverse clients, from innovative startups to established enterprises, helping them achieve their goals through strategic design and development. Each project has taught me something new and reinforced my belief in the importance of user-centered design.</p>
+                    <p>Today, I combine my expertise in visual design, user experience, and front-end development to create holistic solutions that are not only beautiful but also functional, accessible, and aligned with business objectives.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Career Timeline</h2>
+                <p class="section-subtitle">Key milestones in my professional journey</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024</div>
+                        <h3 class="timeline-title">Senior Creative Director</h3>
+                        <div class="timeline-company">Independent Studio</div>
+                        <p class="timeline-description">Leading creative strategy and execution for high-profile clients, focusing on brand transformation and digital innovation.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2021</div>
+                        <h3 class="timeline-title">UX/UI Design Lead</h3>
+                        <div class="timeline-company">Tech Innovation Agency</div>
+                        <p class="timeline-description">Managed a team of designers and developers, delivering award-winning digital products for Fortune 500 companies.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2018</div>
+                        <h3 class="timeline-title">Senior Designer</h3>
+                        <div class="timeline-company">Creative Agency</div>
+                        <p class="timeline-description">Specialized in brand identity and digital design, working with clients in fashion, technology, and healthcare sectors.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2016</div>
+                        <h3 class="timeline-title">Digital Designer</h3>
+                        <div class="timeline-company">Design Studio</div>
+                        <p class="timeline-description">Developed expertise in web design and user experience, creating responsive websites and mobile applications.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2014</div>
+                        <h3 class="timeline-title">Junior Designer</h3>
+                        <div class="timeline-company">Startup Team</div>
+                        <p class="timeline-description">Started my professional journey, learning the fundamentals of design thinking and collaborative workflow.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Skills & Expertise</h2>
+                <p class="section-subtitle">A comprehensive overview of my technical and creative capabilities</p>
+            </div>
+            
+            <div class="skills-container">
+                <div class="skills-chart animate-on-scroll">
+                    <div id="skills-radar" style="width: 100%; height: 400px;"></div>
+                </div>
+                
+                <div class="skills-list animate-on-scroll">
+                    <div class="skill-category">
+                        <h3>Design Tools</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Adobe Creative Suite</span>
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Sketch</span>
+                            <span class="skill-tag">Principle</span>
+                            <span class="skill-tag">After Effects</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Development</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">HTML/CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Node.js</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Specialties</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Brand Identity</span>
+                            <span class="skill-tag">UX/UI Design</span>
+                            <span class="skill-tag">Web Design</span>
+                            <span class="skill-tag">Mobile Apps</span>
+                            <span class="skill-tag">Print Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy-section">
+        <div class="container">
+            <div class="philosophy-content animate-on-scroll">
+                <h2>Design Philosophy</h2>
+                <p>I believe that great design is not just about making things look beautiful—it's about solving problems, telling stories, and creating meaningful connections between people and products.</p>
+                <div class="philosophy-quote">
+                    "Design is not just what it looks like and feels like. Design is how it works."
+                </div>
+                <p>My approach combines strategic thinking with creative execution, always keeping the end user at the center of every decision. I strive to create designs that are not only visually compelling but also functional, accessible, and emotionally resonant.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Creative Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="main.js"></script>
+    <script>
+        // Initialize skills radar chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartDom = document.getElementById('skills-radar');
+            const myChart = echarts.init(chartDom);
+            
+            const option = {
+                title: {
+                    text: 'Skills Overview',
+                    left: 'center',
+                    textStyle: {
+                        color: '#1a1a1a',
+                        fontSize: 18,
+                        fontWeight: 600
+                    }
+                },
+                radar: {
+                    indicator: [
+                        { name: 'Design', max: 100 },
+                        { name: 'UX/UI', max: 100 },
+                        { name: 'Development', max: 100 },
+                        { name: 'Branding', max: 100 },
+                        { name: 'Strategy', max: 100 },
+                        { name: 'Leadership', max: 100 }
+                    ],
+                    shape: 'polygon',
+                    splitNumber: 4,
+                    axisName: {
+                        color: '#666666',
+                        fontSize: 12
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#8b9a7a',
+                            opacity: 0.3
+                        }
+                    },
+                    splitArea: {
+                        show: false
+                    }
+                },
+                series: [{
+                    name: 'Skills',
+                    type: 'radar',
+                    data: [{
+                        value: [95, 90, 85, 92, 88, 82],
+                        name: 'Current Level',
+                        areaStyle: {
+                            color: 'rgba(139, 154, 122, 0.3)'
+                        },
+                        lineStyle: {
+                            color: '#8b9a7a',
+                            width: 2
+                        },
+                        itemStyle: {
+                            color: '#8b9a7a'
+                        }
+                    }]
+                }]
+            };
+            
+            myChart.setOption(option);
+            
+            // Make chart responsive
+            window.addEventListener('resize', function() {
+                myChart.resize();
+            });
+        });
+    </script>
+</body>
+</html>

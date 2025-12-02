@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Creative Portfolio</title>
+    <meta name="description" content="Get in touch to discuss your next project. Let's work together to create something extraordinary.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-light: #fafafa;
+            --accent-sage: #8b9a7a;
+            --accent-terracotta: #c4a484;
+            --text-light: #ffffff;
+            --text-muted: #666666;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-dark);
+            background-color: var(--primary-light);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 154, 122, 0.1);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary-dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent-sage);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-sage);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .contact-hero {
+            padding: 12rem 0 8rem;
+            background: linear-gradient(135deg, rgba(139, 154, 122, 0.1) 0%, rgba(196, 164, 132, 0.1) 100%);
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-sage) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-muted);
+        }
+
+        .contact-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-sage);
+        }
+
+        /* Contact Form Section */
+        .contact-section {
+            padding: 8rem 0;
+            background: var(--primary-light);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-form-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .form-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(139, 154, 122, 0.2);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--primary-light);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent-sage);
+            box-shadow: 0 0 0 3px rgba(139, 154, 122, 0.1);
+        }
+
+        .form-input.valid,
+        .form-textarea.valid,
+        .form-select.valid {
+            border-color: var(--accent-sage);
+        }
+
+        .form-input.invalid,
+        .form-textarea.invalid,
+        .form-select.invalid {
+            border-color: #e74c3c;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .budget-slider {
+            margin: 1rem 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(139, 154, 122, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-sage);
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-sage);
+            cursor: pointer;
+            border: none;
+        }
+
+        .budget-value {
+            text-align: center;
+            font-weight: 600;
+            color: var(--accent-sage);
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: var(--accent-sage);
+            color: var(--text-light);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-terracotta);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 154, 122, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Contact Info Sidebar */
+        .contact-sidebar {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .info-list {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-muted);
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-sage);
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            color: var(--accent-sage);
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-toggle {
+            font-size: 1.2rem;
+            color: var(--accent-sage);
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            text-align: center;
+            opacity: 0;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .success-content h3 {
+            color: var(--accent-sage);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .success-content p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-form-container {
+                padding: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portfolio</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1 class="hero-title">Let's Work Together</h1>
+            <p class="hero-subtitle">Ready to bring your vision to life? Get in touch to discuss your project and explore how we can create something extraordinary together.</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                    </svg>
+                    <span>hello@portfolio.com</span>
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Available worldwide</span>
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Response within 24h</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-container">
+                <div class="contact-form-container">
+                    <h2 class="form-title">Start Your Project</h2>
+                    <p class="form-subtitle">Tell me about your vision and let's create something amazing together</p>
+                    
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="company">Company (Optional)</label>
+                            <input type="text" id="company" name="company" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="projectType">Project Type *</label>
+                            <select id="projectType" name="projectType" class="form-select" required>
+                                <option value="">Select project type</option>
+                                <option value="web-design">Web Design</option>
+                                <option value="branding">Branding & Identity</option>
+                                <option value="mobile-app">Mobile App Design</option>
+                                <option value="print-design">Print Design</option>
+                                <option value="consultation">Design Consultation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="budget">Project Budget</label>
+                            <div class="budget-slider">
+                                <input type="range" id="budget" name="budget" class="slider" min="5000" max="100000" value="25000" step="5000">
+                                <div class="budget-value">$<span id="budget-value">25,000</span></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="timeline">Project Timeline</label>
+                            <select id="timeline" name="timeline" class="form-select">
+                                <option value="">Select timeline</option>
+                                <option value="asap">ASAP</option>
+                                <option value="1-month">Within 1 month</option>
+                                <option value="2-3-months">2-3 months</option>
+                                <option value="3-6-months">3-6 months</option>
+                                <option value="flexible">Flexible</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="message">Project Description *</label>
+                            <textarea id="message" name="message" class="form-textarea" placeholder="Tell me about your project, goals, and vision..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-sidebar">
+                    <div class="info-card">
+                        <h3>Contact Information</h3>
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                                <span>hello@portfolio.com</span>
+                            </li>
+                            <li class="info-item">
+                                <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Global availability</span>
+                            </li>
+                            <li class="info-item">
+                                <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span>24-hour response time</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Frequently Asked Questions</h3>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What's your typical project timeline?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Project timelines vary based on scope and complexity. Web design projects typically take 4-8 weeks, while branding projects can take 2-6 weeks.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Do you work with international clients?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Yes! I work with clients worldwide and am experienced in managing projects across different time zones.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What's included in your design process?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                My process includes discovery, strategy, design concepts, revisions, and final delivery with all necessary files and documentation.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How do you handle revisions?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                I include 3 rounds of revisions in all projects to ensure the final result perfectly matches your vision.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Creative Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="main.js"></script>
+    <script>
+        // Contact page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Budget slider
+            const budgetSlider = document.getElementById('budget');
+            const budgetValue = document.getElementById('budget-value');
+            
+            budgetSlider.addEventListener('input', function() {
+                const value = parseInt(this.value);
+                budgetValue.textContent = value.toLocaleString();
+            });
+
+            // FAQ accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all FAQ items
+                    faqItems.forEach(faq => faq.classList.remove('active'));
+                    
+                    // Open clicked item if it wasn't active
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // Form validation and submission
+            const form = document.getElementById('contact-form');
+            const inputs = form.querySelectorAll('input, textarea, select');
+            
+            // Real-time validation
+            inputs.forEach(input => {
+                input.addEventListener('blur', () => {
+                    validateField(input);
+                });
+                
+                input.addEventListener('input', () => {
+                    if (input.classList.contains('invalid')) {
+                        validateField(input);
+                    }
+                });
+            });
+
+            function validateField(field) {
+                const value = field.value.trim();
+                const isRequired = field.hasAttribute('required');
+                let isValid = true;
+
+                if (isRequired && !value) {
+                    isValid = false;
+                }
+
+                if (field.type === 'email' && value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    isValid = emailRegex.test(value);
+                }
+
+                field.classList.toggle('valid', isValid && value);
+                field.classList.toggle('invalid', !isValid && (isRequired || value));
+
+                return isValid;
+            }
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let isFormValid = true;
+                inputs.forEach(input => {
+                    if (!validateField(input)) {
+                        isFormValid = false;
+                    }
+                });
+
+                if (!isFormValid) {
+                    return;
+                }
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+
+                // Simulate form submission
+                setTimeout(() => {
+                    showSuccessMessage();
+                    form.reset();
+                    budgetValue.textContent = '25,000';
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Clear validation states
+                    inputs.forEach(input => {
+                        input.classList.remove('valid', 'invalid');
+                    });
+                }, 2000);
+            });
+
+            function showSuccessMessage() {
+                const message = document.createElement('div');
+                message.className = 'success-message';
+                message.innerHTML = `
+                    <div class="success-content">
+                        <h3>Message Sent Successfully!</h3>
+                        <p>Thank you for reaching out. I'll get back to you within 24 hours to discuss your project.</p>
+                    </div>
+                `;
+                
+                document.body.appendChild(message);
+                
+                if (typeof anime !== 'undefined') {
+                    anime({
+                        targets: message,
+                        opacity: [0, 1],
+                        scale: [0.8, 1],
+                        duration: 400,
+                        easing: 'easeOutCubic',
+                        complete: () => {
+                            setTimeout(() => {
+                                anime({
+                                    targets: message,
+                                    opacity: 0,
+                                    scale: 0.8,
+                                    duration: 400,
+                                    easing: 'easeInCubic',
+                                    complete: () => message.remove()
+                                });
+                            }, 4000);
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
