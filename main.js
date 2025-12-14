@@ -14,6 +14,34 @@ class PortfolioApp {
         this.setupProjectFilters();
     }
 
+    logIn() {
+        this.showModal('login');
+    }   
+    
+    logOut() {
+        this.showModal('logout');
+    }   
+    
+    showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+        
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+        
+        // Close modal handlers
+        const closeBtn = modal.querySelector('.modal-close');
+        closeBtn.addEventListener('click', () => this.closeModal(modal));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) this.closeModal(modal);
+        });
+    }
+    
+    closeModal(modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+    
     // Navigation System
     setupNavigation() {
         const navLinks = document.querySelectorAll('.nav-link');
