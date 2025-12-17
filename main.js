@@ -164,11 +164,16 @@ class PortfolioApp {
             requestAnimationFrame(animate);
         }
 
-        resizeCanvas();
-        initParticles();
-        animate();
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        a[0].addEventListener('click', function() {     
+            resizeCanvas();
+            initParticles();
+            animate();
+        });
 
-        window.addEventListener('resize', resizeCanvas);
     }
 
     // Project card interactions
